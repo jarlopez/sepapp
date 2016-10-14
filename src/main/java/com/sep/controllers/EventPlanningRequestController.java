@@ -76,6 +76,7 @@ public class EventPlanningRequestController {
         }
         try {
             eprService.saveEventPlanningRequest(eventPlanningRequest);
+            redirectAttributes.addFlashAttribute("info", "Event planning request successfully created.");
             return "redirect:/epr/" + eventPlanningRequest.getId();
         } catch(Exception ex) {
             model.addAttribute("epr", eventPlanningRequest);

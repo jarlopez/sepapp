@@ -18,6 +18,13 @@
         <p><strong>Info:</strong> <span th:text="${info}"></span></p>
         <p><strong>Reason:</strong> <span th:text="${message}"></span></p>
     </div>
+    <div th:if="${param.loginError}" class="alert alert-danger" role="alert">
+        <p><strong>Invalid credentials!</strong> Please try again.</p>
+    </div>
+    <div th:if="${param.logout}" class="alert alert-info" role="alert">
+        <p><strong>Logged out:</strong> You have been logged out of the SEP web portal.</p>
+    </div>
+
 </div>
 
 </body>
