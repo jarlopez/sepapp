@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="navbar">
+    <div class="container">
+        <!-- TODO Access rights for each link! -->
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}" href="../home.html">Swedish Event Planners</a>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <ul class="nav navbar-nav">
+                <!--Sample dropdown-->
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+                <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="#">Action</a></li>-->
+                <!--<li><a href="#">Another action</a></li>-->
+                <!--<li><a href="#">Something else here</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li><a href="#">Separated link</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li><a href="#">One more separated link</a></li>-->
+                <!--</ul>-->
+                <!--</li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Event Planning Request <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a  th:href="@{/epr/create}" href="/epr/create">Create</a></li>
+                        <li><a  th:href="@{/epr/list}" href="/epr/list">View All</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Generate Client Report</a></li>
+                        <li><a href="#">Generate Events Report</a></li>
+                        <li><a href="#">Generate Employee Report</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span sec:authentication="name">User
+                        </span><span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <form class="logout-item" th:action="@{/logout}" method="post">
+                                <input type="submit" value="Sign Out"/>
+                            </form></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
