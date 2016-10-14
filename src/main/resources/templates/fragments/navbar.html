@@ -33,6 +33,16 @@
                     </ul>
                 </li>
                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Client Management
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a  th:href="@{/client/create}" href="/epr/create">Create</a></li>
+                        <li><a  th:href="@{/client/list}" href="/epr/list">View All</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Generate Client Report</a></li>

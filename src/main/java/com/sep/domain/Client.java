@@ -28,6 +28,9 @@ public class Client implements Serializable {
     public void setEprs(Set<EventPlanningRequest> eprs) {
         this.eprs = eprs;
     }
+    public void addEpr(EventPlanningRequest epr) {
+        this.eprs.add(epr);
+    }
 
     public void setId(Long id) {
         this.id = id;

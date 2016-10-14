@@ -17,6 +17,7 @@ public class EventPlanningRequest {
     private Integer version;
 
     private String eprId;
+    private String name;
     private String description;
     private String imageUrl;
     private BigDecimal price;
@@ -76,5 +77,13 @@ public class EventPlanningRequest {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

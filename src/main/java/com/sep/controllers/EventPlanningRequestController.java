@@ -1,5 +1,6 @@
 package com.sep.controllers;
 
+import com.sep.domain.Client;
 import com.sep.domain.EventPlanningRequest;
 import com.sep.repositories.ClientRepository;
 import com.sep.services.EventPlanningRequestService;
@@ -76,6 +77,11 @@ public class EventPlanningRequestController {
         }
         try {
             eprService.saveEventPlanningRequest(eventPlanningRequest);
+            // TODO Save in clients
+            Client client = eventPlanningRequest.getClient();
+            client.addEpr(eventPlanningRequest);
+            clientRepository.save(client);
+
             redirectAttributes.addFlashAttribute("info", "Event planning request successfully created.");
             return "redirect:/epr/" + eventPlanningRequest.getId();
         } catch(Exception ex) {
