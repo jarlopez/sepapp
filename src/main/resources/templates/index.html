@@ -10,10 +10,10 @@
 <!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
 <div class="container">
     <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
-
-    Welcome!
+    <h2>Welcome!</h2>
     <div sec:authorize="isAuthenticated()">
-        Logged user: <span sec:authentication="name">Bob</span>
+        <h3>Login Details</h3>
+        Logged user: <span sec:authentication="name">Bob</span><br/>
         Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
     </div>
 
