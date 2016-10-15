@@ -20,6 +20,10 @@ public class UserBuilder {
         this.user.setPassword(password);
         return this;
     }
+    public UserBuilder setName(String name) {
+        this.user.setName(name);
+        return this;
+    }
     public UserBuilder setRoles(Set<Role> roles) {
         this.user.setRoles(roles);
         return this;

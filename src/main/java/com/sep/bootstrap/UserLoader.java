@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,24 +22,65 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent> {
     private UserService userService;
     @Autowired
     private RoleRepository roleRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private Logger log = Logger.getLogger(UserLoader .class);
 
     public void onApplicationEvent(ContextRefreshedEvent event) {
         List<Role> availableRoles = bootstrapApplicationRoles();
-        log.info("Available roles: " + roleRepository.findAll());
+        log.info("Available roles: " + availableRoles);
 
+        // TEST USERS
         User test = new UserBuilder()
+                .setName("Test User")
                 .setUsername("test@sep.se")
                 .setPassword("test")
                 .setRoles(roleRepository.findByNames(Arrays.asList(
                          UserRole.ADMIN.roleName()
-                        ,UserRole.VICE_PRESIDENT.roleName()
                 )))
                 .build();
         userService.save(test);
+
+        // CUSTOMER SERVICE TEAM
+        User csSarah = new UserBuilder()
+                .setName("Sarah")
+                .setUsername("cs-sarah@sep.se")
+                .setPassword("cs")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.CUSTOMER_SERVICE.roleName()
+                )))
+                .build();
+        userService.save(csSarah);
+        User csSam = new UserBuilder()
+                .setName("Sam")
+                .setUsername("cs-sam@sep.se")
+                .setPassword("cs")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.CUSTOMER_SERVICE.roleName()
+                )))
+                .build();
+        userService.save(csSam);
+        User csJudy = new UserBuilder()
+                .setName("Judy")
+                .setUsername("cs-judy@sep.se")
+                .setPassword("cs")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.CUSTOMER_SERVICE.roleName()
+                )))
+                .build();
+        userService.save(csJudy);
+        User csmJanet = new UserBuilder()
+                .setName("Janet")
+                .setUsername("csm-janet@sep.se")
+                .setPassword("csm")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.CUSTOMER_SERVICE.roleName(),
+                        UserRole.CUSTOMER_SERVICE_MANAGER.roleName(),
+                        UserRole.VICE_PRESIDENT.roleName()
+
+                )))
+                .build();
+        userService.save(csmJanet);
+
 
 
 

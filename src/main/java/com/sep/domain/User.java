@@ -8,17 +8,21 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User {
-    private Long id;
-    private String username;
-
-    @Lob
-    @Column
-    private String password;
-    private String passwordConfirm;
-    private Set<Role> roles = new HashSet<>();
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String username;
+    private String name;
+
+    private String password;
+
+    @Transient
+    private String passwordConfirm;
+
+    @ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -43,7 +47,6 @@ public class User {
         this.password = password;
     }
 
-    @Transient
     public String getPasswordConfirm() {
         return passwordConfirm;
     }
@@ -52,8 +55,6 @@ public class User {
         this.passwordConfirm = passwordConfirm;
     }
 
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public Set<Role> getRoles() {
         return roles;
     }
@@ -63,4 +64,12 @@ public class User {
     }
 
     public void addToRoles(Role role) { this.roles.add(role); }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
