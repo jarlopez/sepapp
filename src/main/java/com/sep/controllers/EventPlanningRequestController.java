@@ -129,7 +129,7 @@ public class EventPlanningRequestController {
     @RequestMapping("/admin/approve/{id}")
     public String adminApprove(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
-        if (epr.getStatus() == EPRStatus.NEW) {
+        if (epr.getStatus() == EPRStatus.REVIEWED_BY_FINANCE) {
             // TODO Audit history
             epr.setStatus(EPRStatus.APPROVED);
             eprService.saveEventPlanningRequest(epr);
@@ -137,9 +137,10 @@ public class EventPlanningRequestController {
             redirectAttributes.addFlashAttribute("epr", epr);
             return "redirect:/epr/" + id;
         } else {
-            model.addAttribute("error", "Improper flow");
-            model.addAttribute("message", "The selected request cannot be approved.");
-            return "/redirect:/epr/list";
+            redirectAttributes.addFlashAttribute("error", "Improper flow");
+            redirectAttributes.addFlashAttribute("message", "The selected request cannot be approved.");
+            redirectAttributes.addFlashAttribute("epr", epr);
+            return "redirect:/epr/list";
         }
     }
     @RequestMapping("/admin/reject/{id}")
@@ -148,6 +149,28 @@ public class EventPlanningRequestController {
         epr.setStatus(EPRStatus.REJECTED_ADMIN);
         eprService.saveEventPlanningRequest(epr);
         redirectAttributes.addFlashAttribute("info", "The event planning request was successfully rejected.");
+        return "redirect:/epr/list";
+    }
+
+    @RequestMapping("/feedback/{id}")
+    public String financialFeedback(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+        if (epr.getStatus() != EPRStatus.REVIEWED_BY_CS) {
+            redirectAttributes.addFlashAttribute("error", "Improper flow");
+            redirectAttributes.addFlashAttribute("message", "Financial feedback cannot be provided for the request.");
+            return "redirect:/epr/list";
+        }
+        model.addAttribute("epr", epr);
+        return "epr/finance-feedback";
+    }
+    @RequestMapping(value = "/feedback/{id}", method = RequestMethod.POST)
+    public String saveFinancialFeedback(@RequestParam String feedback, @PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+        epr.setFinancialFeedback(feedback);
+        epr.setStatus(EPRStatus.REVIEWED_BY_FINANCE);
+        eprService.saveEventPlanningRequest(epr);
+        // TODO Actually update fields
+        redirectAttributes.addFlashAttribute("info", "Financial feedback submitted");
         return "redirect:/epr/list";
     }
 
