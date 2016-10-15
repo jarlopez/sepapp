@@ -2,6 +2,7 @@ package com.sep.domain;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,7 +15,7 @@ public class User {
     @Column
     private String password;
     private String passwordConfirm;
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -60,4 +61,6 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public void addToRoles(Role role) { this.roles.add(role); }
 }

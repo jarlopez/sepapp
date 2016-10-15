@@ -7,5 +7,9 @@ public enum UserRole {
     CUSTOMER_SERVICE,
     CUSTOMER_SERVICE_MANAGER,
     FINANCIAL_MANAGER,
-    VICE_PRESIDENT
+    VICE_PRESIDENT;
+
+    public String roleName() {
+        return "ROLE_" + this.name();
+    }
 }
