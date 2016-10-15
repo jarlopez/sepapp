@@ -1,7 +1,10 @@
 package com.sep.domain;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name="eventPlanningRequest")
@@ -16,11 +19,22 @@ public class EventPlanningRequest {
     @Version
     private Integer version;
 
-    private String eprId;
+    private EPRStatus status = EPRStatus.NEW;
+    // TODO Populate
+
+    @ManyToOne(cascade = CascadeType.ALL, targetEntity = User.class)
+    private User creator;
+
+    private Double budget;
+    private Integer numAttendees;
+
+    private Date fromDate;
+    private Date toDate;
+
+
     private String name;
     private String description;
-    private String imageUrl;
-    private BigDecimal price;
+    private String eventType;
 
     public String getDescription() {
         return description;
@@ -46,31 +60,6 @@ public class EventPlanningRequest {
         this.id = id;
     }
 
-    public String getEprId() {
-        return eprId;
-    }
-
-    public void setEprId(String eprId) {
-        this.eprId = eprId;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-
     public Client getClient() {
         return client;
     }
@@ -85,5 +74,61 @@ public class EventPlanningRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public EPRStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EPRStatus status) {
+        this.status = status;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public Double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Double budget) {
+        this.budget = budget;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public Integer getNumAttendees() {
+        return numAttendees;
+    }
+
+    public void setNumAttendees(Integer numAttendees) {
+        this.numAttendees = numAttendees;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 }

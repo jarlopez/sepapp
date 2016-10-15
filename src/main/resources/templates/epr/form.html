@@ -10,17 +10,11 @@
 <!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
 <div class="container">
     <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
-    <h2>Product Details</h2>
+    <h2>Event Details</h2>
     <div>
         <form class="form-horizontal" th:object="${epr}" th:action="@{/epr}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{version}"/>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Product Id:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" th:field="*{eprId}"/>
-                </div>
-            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Name:</label>
                 <div class="col-sm-10">
@@ -34,15 +28,21 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Price:</label>
+                <label class="col-sm-2 control-label">Budget:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" th:field="*{price}"/>
+                    <input type="number" step="any" min="0" class="form-control" th:field="*{budget}"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Image Url:</label>
+                <label class="col-sm-2 control-label">From</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" th:field="*{imageUrl}"/>
+                    <input class="form-control" type="date" value="2011-08-19" id="epr-from"  th:field="*{fromDate}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">To:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="date" value="2011-08-19" id="epr-to"  th:field="*{toDate}"/>
                 </div>
             </div>
             <div class="form-group">
