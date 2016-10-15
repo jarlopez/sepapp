@@ -1,47 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="navbar">
-    <div class="container">
+
+<div th:fragment="navbar">
+<div class="navbar navbar-default">
+    <div class="container-fluid">
         <!-- TODO Access rights for each link! -->
         <div class="navbar-header">
             <a class="navbar-brand" th:href="@{/}" href="../home.html">Swedish Event Planners</a>
         </div>
-        <div sec:authorize="isAuthenticated()">
-            <ul class="nav navbar-nav">
-                <!--Sample dropdown-->
-                <!--<li class="dropdown">-->
-                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-                <!--<ul class="dropdown-menu">-->
-                <!--<li><a href="#">Action</a></li>-->
-                <!--<li><a href="#">Another action</a></li>-->
-                <!--<li><a href="#">Something else here</a></li>-->
-                <!--<li role="separator" class="divider"></li>-->
-                <!--<li><a href="#">Separated link</a></li>-->
-                <!--<li role="separator" class="divider"></li>-->
-                <!--<li><a href="#">One more separated link</a></li>-->
-                <!--</ul>-->
-                <!--</li>-->
+            <ul sec:authorize="isAuthenticated()" class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Event Planning Request <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a  th:href="@{/epr/create}" href="/epr/create">Create</a></li>
+                        <th:block sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE.name())">
+                            <li><a  th:href="@{/epr/create}" href="/epr/create">Create</a></li>
+                        </th:block>
                         <li><a  th:href="@{/epr/list}" href="/epr/list">View All</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Client Management
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a  th:href="@{/client/create}" href="/epr/create">Create</a></li>
-                        <li><a  th:href="@{/client/list}" href="/epr/list">View All</a></li>
-                    </ul>
-                </li>
+                <li class="dropdown" sec:authorize="hasAnyRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE_MANAGER.name())">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Client Management
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE_MANAGER.name())">
+                                <a  th:href="@{/client/create}" href="/client/create">Create</a>
+                            </li>
+                            <li><a  th:href="@{/client/list}" href="/client/list">View All</a></li>
+                        </ul>
+                    </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports<span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -74,10 +66,10 @@
                     </ul>
                 </li>
             </ul>
-        </div>
+
     </div>
 </div>
-
+</div>
 
 </body>
 </html>

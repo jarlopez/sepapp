@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>SEP | EPR Financial Feedback</title>
+    <!--/*/ <th:block th:include="fragments/header-inc :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
+    <h2>Financial Feedback for Event Planning Request</h2>
+    <div  th:object="${epr}" th:with="readonly='readonly'" >
+        <div th:replace="epr/form :: show-epr-form"></div>
+        <form class="form" th:object="${epr}" th:action="@{/epr/feedback/} + *{id}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{version}"/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Feedback:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="feedback"/>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-default">Submit Feedback</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+

@@ -48,7 +48,6 @@
                     </div>
                     <div sec:authorize="hasRole(T(com.sep.common.UserRole).ADMIN_MANAGER.name())">
                         <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_FINANCE}">
-                            <!-- TODO Differentiate approve from initial -->
                             <a th:href="${'/epr/admin/approve/' + epr.id}">Approve</a>
                             <a th:href="${'/epr/admin/reject/' + epr.id}">Reject</a> <!-- TODO  endpoint -->
                         </div>
