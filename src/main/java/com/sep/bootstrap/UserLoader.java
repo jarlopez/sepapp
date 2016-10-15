@@ -59,8 +59,8 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent>, O
         // CUSTOMER SERVICE TEAM
         User csMike = new UserBuilder()
                 .setName("Mike")
-                .setUsername("cs-mike@sep.se")
-                .setPassword("cs")
+                .setUsername("admin-mike@sep.se")
+                .setPassword("admin")
                 .setRoles(roleRepository.findByNames(Arrays.asList(
                         UserRole.ADMIN_MANAGER.roleName()
                 )))

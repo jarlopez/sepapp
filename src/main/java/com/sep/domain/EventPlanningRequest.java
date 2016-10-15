@@ -1,8 +1,5 @@
 package com.sep.domain;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -30,6 +27,9 @@ public class EventPlanningRequest {
 
     private Date fromDate;
     private Date toDate;
+
+    @Lob
+    private String financialFeedback;
 
 
     private String name;
@@ -130,5 +130,13 @@ public class EventPlanningRequest {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
+    }
+
+    public String getFinancialFeedback() {
+        return financialFeedback;
+    }
+
+    public void setFinancialFeedback(String financialFeedback) {
+        this.financialFeedback = financialFeedback;
     }
 }

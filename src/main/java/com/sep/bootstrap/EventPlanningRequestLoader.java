@@ -46,5 +46,13 @@ public class EventPlanningRequestLoader implements ApplicationListener<ContextRe
         schoolOuting.setCreator(userRepository.findByUsername("cs-judy@sep.se"));
 
         eprRepository.save(schoolOuting);
+
+        EventPlanningRequest fundraiser = new EventPlanningRequest();
+        fundraiser.setName("Fundraiser");
+        fundraiser.setDescription("Raising money from alumni");
+        fundraiser.setClient(clientRepository.findByName("KTH"));
+        fundraiser.setCreator(userRepository.findByUsername("csm-janet@sep.se"));
+        fundraiser.setStatus(EPRStatus.REVIEWED_BY_CS);
+        eprRepository.save(fundraiser);
     }
 }
