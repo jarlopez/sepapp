@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,13 +18,17 @@ import java.util.List;
 
 
 @Component
-public class UserLoader implements ApplicationListener<ContextRefreshedEvent> {
+public class UserLoader implements ApplicationListener<ContextRefreshedEvent>, Ordered {
     @Autowired
     private UserService userService;
     @Autowired
     private RoleRepository roleRepository;
 
     private Logger log = Logger.getLogger(UserLoader .class);
+
+    public int getOrder() {
+        return LOWEST_PRECEDENCE;
+    }
 
     public void onApplicationEvent(ContextRefreshedEvent event) {
         List<Role> availableRoles = bootstrapApplicationRoles();
@@ -40,7 +45,27 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .build();
         userService.save(test);
 
+        // FINANCE
+        User finAlice = new UserBuilder()
+                .setName("Alice")
+                .setUsername("fin-alice@sep.se")
+                .setPassword("fin")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.FINANCIAL_MANAGER.roleName()
+                )))
+                .build();
+        userService.save(finAlice);
+
         // CUSTOMER SERVICE TEAM
+        User csMike = new UserBuilder()
+                .setName("Mike")
+                .setUsername("cs-mike@sep.se")
+                .setPassword("cs")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.ADMIN_MANAGER.roleName()
+                )))
+                .build();
+        userService.save(csMike);
         User csSarah = new UserBuilder()
                 .setName("Sarah")
                 .setUsername("cs-sarah@sep.se")
@@ -80,9 +105,6 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent> {
                 )))
                 .build();
         userService.save(csmJanet);
-
-
-
 
         /*
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
