@@ -2,6 +2,7 @@ package com.sep.controllers;
 
 import com.sep.domain.Client;
 import com.sep.repositories.ClientRepository;
+import com.sep.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ public class ClientController {
     @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("clients", clientRepository.findAll());
-        // TODO Make listing generic, populating headers and data server-sde
         return "client/list";
     }
 
@@ -61,7 +61,7 @@ public class ClientController {
         }
         try {
             clientRepository.save(client);
-            redirectAttributes.addFlashAttribute("info", "Event planning request successfully created.");
+            redirectAttributes.addFlashAttribute("info", "New client successfully created.");
             return "redirect:/client/" + client.getId();
         } catch(Exception ex) {
             model.addAttribute("client", client);

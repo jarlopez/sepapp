@@ -21,7 +21,11 @@
             </tr>
             <tr th:each="client : ${clients}">
                 <td th:text="${client.name}">Name</td>
-                <td th:text="${client.eprs}">Events</td>
+                <td>
+                    <span th:each="epr, stat : ${client.eprs}" th:text="!${stat.last} ? ${epr.name} + ',' : ${epr.name}"></span>
+                    <!--<span th:each="a, iterStat : ${client.eprs}" th:text="!{iterStat.last} ? ${a} + ',': ${a}"></span>-->
+                    Events
+                </td>
                 <td><a th:href="${ '/client/' + client.id}">View</a></td>
                 <td><a th:href="${'/client/edit/' + client.id}">Edit</a></td>
             </tr>

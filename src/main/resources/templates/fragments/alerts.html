@@ -16,7 +16,7 @@
     </div>
     <div th:if="${info}" class="alert alert-info" role="alert">
         <p><strong>Info:</strong> <span th:text="${info}"></span></p>
-        <p><strong>Reason:</strong> <span th:text="${message}"></span></p>
+        <p th:if="${message}"><strong>Reason:</strong> <span th:text="${message}"></span></p>
     </div>
     <div th:if="${param.loginError}" class="alert alert-danger" role="alert">
         <p><strong>Invalid credentials!</strong> Please try again.</p>

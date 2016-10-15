@@ -51,7 +51,7 @@ public class SepApplication extends WebMvcConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/resources/**", "/registration").permitAll()
                     .antMatchers("/epr/edit/**")
-                    .hasAnyRole(UserRole.CUSTOMER_SERVICE.name())
+                        .hasAnyRole(UserRole.CUSTOMER_SERVICE.name())
                     .anyRequest()
                         .fullyAuthenticated()
                     .and()

@@ -1,6 +1,7 @@
 package com.sep.controllers;
 
 import com.sep.domain.Client;
+import com.sep.domain.EPRStatus;
 import com.sep.domain.EventPlanningRequest;
 import com.sep.domain.User;
 import com.sep.repositories.ClientRepository;
@@ -43,18 +44,16 @@ public class EventPlanningRequestController {
     @RequestMapping("/{id}")
     public String showEventPlanningRequest(@PathVariable Long id, Model model){
         EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
-        if (epr != null) {
-            log.info("Yo yo, it exists: " + epr.getId());
-        }
         model.addAttribute("epr", eprService.getEventPlanningRequestById(id));
         return "epr/view";
     }
 
 
-    // XXX Populate clients!
+    // XXX Select the current one in view 'epr/form'
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model){
         model.addAttribute("epr", eprService.getEventPlanningRequestById(id));
+        model.addAttribute("clients", clientRepository.findAll());
         return "epr/form";
     }
 
@@ -100,6 +99,56 @@ public class EventPlanningRequestController {
 
             return "redirect:/epr/create";
         }
+    }
+
+    @RequestMapping("/cs/approve/{id}")
+    public String customServiceApprove(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+        if (epr.getStatus() == EPRStatus.NEW) {
+            // TODO Audit history
+            epr.setStatus(EPRStatus.REVIEWED_BY_CS);
+            eprService.saveEventPlanningRequest(epr);
+            redirectAttributes.addFlashAttribute("info", "The event planning request was successfully approved.");
+            redirectAttributes.addFlashAttribute("epr", epr);
+            return "redirect:/epr/" + id;
+        } else {
+            model.addAttribute("error", "Improper flow");
+            model.addAttribute("message", "The selected request cannot be approved.");
+            return "/redirect:/epr/list";
+        }
+    }
+    @RequestMapping("/cs/reject/{id}")
+    public String customServiceReject(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+            epr.setStatus(EPRStatus.REJECTED_CS);
+            eprService.saveEventPlanningRequest(epr);
+            redirectAttributes.addFlashAttribute("info", "The event planning request was successfully rejected.");
+            return "redirect:/epr/list";
+    }
+
+    @RequestMapping("/admin/approve/{id}")
+    public String adminApprove(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+        if (epr.getStatus() == EPRStatus.NEW) {
+            // TODO Audit history
+            epr.setStatus(EPRStatus.APPROVED);
+            eprService.saveEventPlanningRequest(epr);
+            redirectAttributes.addFlashAttribute("info", "The event planning request was successfully approved.");
+            redirectAttributes.addFlashAttribute("epr", epr);
+            return "redirect:/epr/" + id;
+        } else {
+            model.addAttribute("error", "Improper flow");
+            model.addAttribute("message", "The selected request cannot be approved.");
+            return "/redirect:/epr/list";
+        }
+    }
+    @RequestMapping("/admin/reject/{id}")
+    public String adminReject(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+        epr.setStatus(EPRStatus.REJECTED_ADMIN);
+        eprService.saveEventPlanningRequest(epr);
+        redirectAttributes.addFlashAttribute("info", "The event planning request was successfully rejected.");
+        return "redirect:/epr/list";
     }
 
 }
