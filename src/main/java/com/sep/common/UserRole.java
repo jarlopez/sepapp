@@ -21,6 +21,8 @@ public enum UserRole {
     ACCOUNTANT,
 
     // Production & Services
+    PRODUCTION,
+    SERVICES,
     TEAM_MEMBER,
     TEAM_MANAGER,
 

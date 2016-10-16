@@ -56,6 +56,121 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent>, O
                 .build();
         userService.save(finAlice);
 
+        // PRODUCTION
+        User prodManager = new UserBuilder()
+                .setName("Johan (Production manager)")
+                .setUsername("prodm@sep.se")
+                .setPassword("prodm")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.PRODUCTION.roleName(),
+                        UserRole.TEAM_MANAGER.roleName()
+                )))
+                .build();
+        userService.save(prodManager);
+        User prodMember = new UserBuilder()
+                .setName("Johan (Production member)")
+                .setUsername("prod@sep.se")
+                .setPassword("prod")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.PRODUCTION.roleName(),
+                        UserRole.TEAM_MEMBER.roleName()
+                )))
+                .build();
+        userService.save(prodMember);
+        User prodJack = new UserBuilder()
+                .setName("Jack")
+                .setUsername("prodm-jack@sep.se")
+                .setPassword("prodm")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.PRODUCTION.roleName(),
+                        UserRole.TEAM_MANAGER.roleName()
+                )))
+                .build();
+        userService.save(prodJack);
+        User prodTobias = new UserBuilder()
+                .setName("Tobias")
+                .setUsername("prod-tobias@sep.se")
+                .setPassword("prod")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.PRODUCTION.roleName(),
+                        UserRole.TEAM_MEMBER.name()
+                )))
+                .build();
+        userService.save(prodTobias);
+        User prodJulia = new UserBuilder()
+                .setName("Julia")
+                .setUsername("prod-julia@sep.se")
+                .setPassword("prod")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.PRODUCTION.roleName(),
+                        UserRole.TEAM_MEMBER.name()
+                )))
+                .build();
+        userService.save(prodJulia);
+        User prodAdam = new UserBuilder()
+                .setName("Adam")
+                .setUsername("prod-adam@sep.se")
+                .setPassword("prod")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.PRODUCTION.roleName(),
+                        UserRole.TEAM_MEMBER.name()
+                )))
+                .build();
+        userService.save(prodAdam);
+
+        // SERVICES
+        User servManager = new UserBuilder()
+                .setName("Johan (Services manager)")
+                .setUsername("servm@sep.se")
+                .setPassword("servm")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.SERVICES.roleName(),
+                        UserRole.TEAM_MANAGER.roleName()
+                )))
+                .build();
+        userService.save(servManager);
+        User servMember = new UserBuilder()
+                .setName("Johan (Services member)")
+                .setUsername("serv@sep.se")
+                .setPassword("serv")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.SERVICES.roleName(),
+                        UserRole.TEAM_MEMBER.roleName()
+                )))
+                .build();
+        userService.save(servMember);
+        User servNatalie = new UserBuilder()
+                .setName("Natalie")
+                .setUsername("servm-natalie@sep.se")
+                .setPassword("servm")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.SERVICES.roleName(),
+                        UserRole.TEAM_MEMBER.roleName()
+                )))
+                .build();
+        userService.save(servNatalie);
+        User servHelen = new UserBuilder()
+                .setName("Helen")
+                .setUsername("serv-helen@sep.se")
+                .setPassword("serv")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.SERVICES.roleName(),
+                        UserRole.TEAM_MEMBER.roleName()
+                )))
+                .build();
+        userService.save(servHelen);
+        User servKate = new UserBuilder()
+                .setName("Kate")
+                .setUsername("serv-kate@sep.se")
+                .setPassword("serv")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.SERVICES.roleName(),
+                        UserRole.TEAM_MEMBER.name()
+                )))
+                .build();
+        userService.save(servKate);
+
+
         // CUSTOMER SERVICE TEAM
         User csMike = new UserBuilder()
                 .setName("Mike")
@@ -105,13 +220,6 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent>, O
                 )))
                 .build();
         userService.save(csmJanet);
-
-        /*
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRepository.findAll()));
-        userRepository.save(user);
-         */
-        log.info("ADDED 'test@sep.se' IDENTIFIED BY 'test'");
     }
 
     private List<Role> bootstrapApplicationRoles() {
