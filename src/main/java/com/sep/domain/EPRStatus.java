@@ -20,5 +20,4 @@ public enum EPRStatus {
     public String getDisplayName() {
         return this.displayName;
     }
-
 }
