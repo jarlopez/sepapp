@@ -42,6 +42,7 @@
                         <li><a href="#">Generate Employee Report</a></li>
                     </ul>
                 </li>
+                <!-- TODO -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         Staff Management
@@ -51,6 +52,25 @@
                         <li><a href="#">Request Additional Staffing</a></li>
                         <li><a href="#">View Staffing Requests</a></li>
                         <li><a href="#">Update Status</a></li>
+                    </ul>
+                </li>
+                <!-- TODO Services vs Production -->
+                <!-- TODO Only available to managers and Team Members -->
+                <li class="dropdown" sec:authorize="hasAnyRole(T(com.sep.common.UserRole).TEAM_MANAGER.name(), T(com.sep.common.UserRole).TEAM_MEMBER.name())">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Task Management
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MANAGER.name())">
+                            <a  th:href="@{/task/create}" href="/task/create">Create</a>
+                        </li>
+                        <li sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MANAGER.name())">
+                            <a th:href="@{/task/list}" href="#">View All Tasks</a>
+                        </li>
+                        <li sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MEMBER.name())">
+                            <a th:href="@{/task/list}" href="#">View Assigned Tasks</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">
