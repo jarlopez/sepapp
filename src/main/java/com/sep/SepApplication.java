@@ -50,24 +50,48 @@ public class SepApplication extends WebMvcConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                .authorizeRequests()
-                    .antMatchers("/resources/**", "/registration").permitAll()
-                    .antMatchers("/epr/edit/**")
-                        .hasAnyRole(UserRole.CUSTOMER_SERVICE.name())
+                    // Not the most secure, but works fine for local projects
+                    .csrf().disable()
+                    .headers().disable()
+                    .authorizeRequests()
+                    .antMatchers("/console/**").permitAll()
+                    .antMatchers("/epr/create/**")
+                    .hasAnyRole(
+                            UserRole.CUSTOMER_SERVICE.name(),
+                            UserRole.CUSTOMER_SERVICE_MANAGER.name()
+                    )
+                    .antMatchers("/client/list")
+                    .hasAnyRole(
+                            UserRole.CUSTOMER_SERVICE_MANAGER.name(),
+                            UserRole.FINANCIAL_MANAGER.name()
+                    )
+                    .antMatchers("/client/**")
+                    .hasAnyRole(
+                            UserRole.CUSTOMER_SERVICE_MANAGER.name()
+                    )
+                    .antMatchers("/task/mgmt/**")
+                    .hasAnyRole(
+                            UserRole.TEAM_MANAGER.name()
+                    )
+                    .antMatchers("/task/**")
+                    .hasAnyRole(
+                            UserRole.TEAM_MANAGER.name(),
+                            UserRole.TEAM_MEMBER.name()
+                    )
                     .anyRequest()
-                        .fullyAuthenticated()
+                    .fullyAuthenticated()
                     .and()
                     .formLogin()
-                        .loginPage("/login")
-                        .failureUrl("/login?loginError").permitAll()
-                        .and()
-                        .logout().permitAll();
+                    .loginPage("/login")
+                    .failureUrl("/login?loginError").permitAll()
+                    .and()
+                    .logout().permitAll();
         }
 
         @Override
         public void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth
-                .userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+                    .userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
         }
     }
 }
