@@ -5,8 +5,10 @@ import com.sep.repositories.EventPlanningRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class EventPlanningRequestServiceImpl implements EventPlanningRequestService {
+
     @Autowired
     private EventPlanningRequestRepository eprRepository;
 
