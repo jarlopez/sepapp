@@ -24,6 +24,12 @@ targetCompatibility = 1.7
 repositories {
     mavenCentral()
 }
+test {
+    systemProperties 'logback.configurationFile' : new File(projectDir,'src/test/resources/logback-test.xml').absolutePath
+    afterTest { desc, result ->
+        println "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
 
 
 dependencies {

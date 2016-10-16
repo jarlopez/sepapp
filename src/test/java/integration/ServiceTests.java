@@ -60,7 +60,7 @@ public class ServiceTests {
         auditService.saveAuditRecord(ar);
         epr.addToAuditHistory(ar);
         eprRepository.save(epr);
-
+        log.info("Checking audits");
         // Ensure non-empty collection
         Iterable<AuditRecord> finalAudits = auditService.getHistoryForRepoAndId(eprRepository, id);
         assert(initialAudits.iterator().hasNext());
