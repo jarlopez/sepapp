@@ -50,6 +50,23 @@
             </div>
             <a th:href="@{/epr/edit/} + ${epr.id}" class="btn btn-primary">Edit</a>
         </form>
+        <h2>History</h2>
+        <table class="table table-striped">
+            <thead>
+                <th>Modified By</th>
+                <th>Date</th>
+                <th>Field</th>
+                <th>New Value</th>
+            </thead>
+            <tbody>
+                <tr th:each="audit : ${epr.auditHistory}">
+                    <td th:text="${audit.modifiedBy?.name}"></td>
+                    <td th:text="${audit.modified}"></td>
+                    <td th:text="${audit.field}"></td>
+                    <td th:text="${audit.newValue}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

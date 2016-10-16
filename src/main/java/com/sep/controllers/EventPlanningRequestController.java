@@ -1,11 +1,9 @@
 package com.sep.controllers;
 
-import com.sep.domain.Client;
-import com.sep.domain.EPRStatus;
-import com.sep.domain.EventPlanningRequest;
-import com.sep.domain.User;
+import com.sep.domain.*;
 import com.sep.repositories.ClientRepository;
 import com.sep.repositories.UserRepository;
+import com.sep.services.AuditService;
 import com.sep.services.EventPlanningRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +29,8 @@ public class EventPlanningRequestController {
     @Autowired
     private EventPlanningRequestService eprService;
     @Autowired
+    private AuditService auditService;
+    @Autowired
     private ClientRepository clientRepository;
     @Autowired
     private UserRepository userRepository;
@@ -38,6 +38,7 @@ public class EventPlanningRequestController {
     @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
     public String list(Model model){
         model.addAttribute("eprs", eprService.listAllEventPlanningRequests());
+
         return "epr/list";
     }
 
@@ -83,8 +84,15 @@ public class EventPlanningRequestController {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = userRepository.findByUsername(username);
             eventPlanningRequest.setCreator(user);
+            AuditRecord ar = new AuditRecord();
+            ar.setField("Status");
+            ar.setNewValue("Created");
+            ar.setModifiedBy(user);
+            auditService.saveAuditRecord(ar);
+
+            eventPlanningRequest.addToAuditHistory(ar);
             eprService.saveEventPlanningRequest(eventPlanningRequest);
-            // TODO Save in clients
+
             Client client = eventPlanningRequest.getClient();
             client.addEpr(eventPlanningRequest);
             clientRepository.save(client);

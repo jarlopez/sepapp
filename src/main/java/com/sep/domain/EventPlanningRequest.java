@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="eventPlanningRequest")
-public class EventPlanningRequest {
+public class EventPlanningRequest extends Auditable {
     @ManyToOne
     private Client client;
 
@@ -30,7 +30,6 @@ public class EventPlanningRequest {
 
     @Lob
     private String financialFeedback;
-
 
     private String name;
     private String description;
