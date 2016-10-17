@@ -83,10 +83,15 @@ public class EventPlanningRequestController {
         try {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = userRepository.findByUsername(username);
-            eventPlanningRequest.setCreator(user);
             AuditRecord ar = new AuditRecord();
-            ar.setField("Status");
-            ar.setNewValue("Created");
+            if (eventPlanningRequest.getId() == null) {
+                eventPlanningRequest.setCreator(user);
+                ar.setField("Status");
+                ar.setNewValue("Created");
+            } else {
+                ar.setField("Event planning request data");
+                ar.setNewValue("Edited");
+            }
             ar.setModifiedBy(user);
             auditService.saveAuditRecord(ar);
 
@@ -113,7 +118,15 @@ public class EventPlanningRequestController {
     public String customServiceApprove(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
         if (epr.getStatus() == EPRStatus.NEW) {
-            // TODO Audit history
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByUsername(username);
+            AuditRecord ar = new AuditRecord();
+            ar.setField("Status");
+            ar.setNewValue("Approved by customer service");
+            ar.setModifiedBy(user);
+            auditService.saveAuditRecord(ar);
+            epr.addToAuditHistory(ar);
+
             epr.setStatus(EPRStatus.REVIEWED_BY_CS);
             eprService.saveEventPlanningRequest(epr);
             redirectAttributes.addFlashAttribute("info", "The event planning request was successfully approved.");
@@ -128,17 +141,35 @@ public class EventPlanningRequestController {
     @RequestMapping("/cs/reject/{id}")
     public String customServiceReject(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
-            epr.setStatus(EPRStatus.REJECTED_CS);
-            eprService.saveEventPlanningRequest(epr);
-            redirectAttributes.addFlashAttribute("info", "The event planning request was successfully rejected.");
-            return "redirect:/epr/list";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        AuditRecord ar = new AuditRecord();
+        ar.setField("Status");
+        ar.setNewValue("Rejected by customer service");
+        ar.setModifiedBy(user);
+        auditService.saveAuditRecord(ar);
+        epr.addToAuditHistory(ar);
+
+        epr.setStatus(EPRStatus.REJECTED_CS);
+        eprService.saveEventPlanningRequest(epr);
+        redirectAttributes.addFlashAttribute("info", "The event planning request was successfully rejected.");
+        return "redirect:/epr/list";
     }
 
     @RequestMapping("/admin/approve/{id}")
     public String adminApprove(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
         if (epr.getStatus() == EPRStatus.REVIEWED_BY_FINANCE) {
-            // TODO Audit history
+
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByUsername(username);
+            AuditRecord ar = new AuditRecord();
+            ar.setField("Status");
+            ar.setNewValue("Approved by administration manager");
+            ar.setModifiedBy(user);
+            auditService.saveAuditRecord(ar);
+            epr.addToAuditHistory(ar);
+
             epr.setStatus(EPRStatus.APPROVED);
             eprService.saveEventPlanningRequest(epr);
             redirectAttributes.addFlashAttribute("info", "The event planning request was successfully approved.");
@@ -154,6 +185,16 @@ public class EventPlanningRequestController {
     @RequestMapping("/admin/reject/{id}")
     public String adminReject(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        AuditRecord ar = new AuditRecord();
+        ar.setField("Status");
+        ar.setNewValue("Rejected by administration manager");
+        ar.setModifiedBy(user);
+        auditService.saveAuditRecord(ar);
+        epr.addToAuditHistory(ar);
+
         epr.setStatus(EPRStatus.REJECTED_ADMIN);
         eprService.saveEventPlanningRequest(epr);
         redirectAttributes.addFlashAttribute("info", "The event planning request was successfully rejected.");
@@ -174,6 +215,16 @@ public class EventPlanningRequestController {
     @RequestMapping(value = "/feedback/{id}", method = RequestMethod.POST)
     public String saveFinancialFeedback(@RequestParam String feedback, @PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        AuditRecord ar = new AuditRecord();
+        ar.setField("Status");
+        ar.setNewValue("Reviewed by financial manager");
+        ar.setModifiedBy(user);
+        auditService.saveAuditRecord(ar);
+        epr.addToAuditHistory(ar);
+
         epr.setFinancialFeedback(feedback);
         epr.setStatus(EPRStatus.REVIEWED_BY_FINANCE);
         eprService.saveEventPlanningRequest(epr);
