@@ -5,9 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- * Created by Default Cute on 17-10-2016.
- */
 @Entity
 public class FinanceRequest {
 
@@ -17,6 +14,8 @@ public class FinanceRequest {
     private String projectReference;
     private Integer requiredAmount = 10000;
     private String reason;
+
+    private FinanceRequestStatus status = FinanceRequestStatus.OPEN;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,5 +58,13 @@ public class FinanceRequest {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public FinanceRequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(FinanceRequestStatus status) {
+        this.status = status;
     }
 }

@@ -32,6 +32,8 @@ public class DomainTest {
     UserRepository userRepository;
     @Autowired
     StaffingRequestRepository staffRepository;
+    @Autowired
+    FinanceRequestRepository financeRepository;
 
     @Test
     public void testCreateClients() throws Exception {
@@ -112,4 +114,26 @@ public class DomainTest {
         log.info("All checks passed");
     }
 
+    @Test
+    public void testCreateFinanceRequest() throws Exception {
+        // SETUP: Create new object, try to save
+        FinanceRequest fr = new FinanceRequest();
+        fr.setRequestingDepartment(Department.ADMINISTRATION);
+        fr.setProjectReference("ep456");
+        fr.setRequiredAmount(1000);
+        fr.setReason("Resources Required");
+
+        financeRepository.save(fr);
+        Long id = fr.getId();
+
+        // Check retrieval
+        FinanceRequest check = financeRepository.findOne(id);
+        assert(check != null);
+        assert(check.getRequestingDepartment().equals(Department.ADMINISTRATION));
+        assert(check.getId().equals(id));
+        log.info("All checks passed");
+    }
+
 }
+
+

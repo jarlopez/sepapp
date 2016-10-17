@@ -18,18 +18,22 @@
                 <th>Required Amount</th>
                 <th>Reason</th>
                 <th>Project Reference</th>
-                <th>Actions</th>
+                <th sec:authorize="hasAnyRole(T(com.sep.common.UserRole).FINANCIAL_MANAGER.name(),T(com.sep.common.UserRole).TEAM_MANAGER.name())">Actions</th>
+
             </tr>
             <!-- TODO Fix below -->
             <tr th:each="request : ${requests}" th:class="${currentId == request.id} ? 'success' : ''">
                 <td th:text="${request.getRequestingDepartment().getDisplayName()}"></td>
+                <td th:text="${request.projectReference}"></td>
                 <td th:text="${request.requiredAmount}"></td>
                 <td th:text="${request.reason}"></td>
-                <td th:text="${request.projectReference}"></td>
-                <td><i>No actions available</i></td>
+                <td sec:authorize="hasAnyRole(T(com.sep.common.UserRole).FINANCIAL_MANAGER.name())">
+                    <a th:if="${request.status == T(com.sep.domain.FinanceRequestStatus).OPEN}" th:href="@{/finance/request/start/} + ${request.id}" href="#">Start Progress</a>
+                    <a th:if="${request.status != T(com.sep.domain.FinanceRequestStatus).CLOSED}"  th:href="@{/finance/request/close/} + ${request.id}" href="#">Close</a>
+                    <a th:if="${request.status != T(com.sep.domain.FinanceRequestStatus).REJECTED}" th:href="@{/finance/request/reject/} + ${request.id}" href="#">Reject</a>
+                </td>
             </tr>
         </table>
-
     </div>
 </div>
 
