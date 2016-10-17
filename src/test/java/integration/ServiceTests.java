@@ -2,12 +2,16 @@ package integration;
 
 
 import com.sep.SepApplication;
+import com.sep.bootstrap.UserBuilder;
 import com.sep.domain.AuditRecord;
 import com.sep.domain.EventPlanningRequest;
+import com.sep.domain.Role;
 import com.sep.repositories.EventPlanningRequestRepository;
+import com.sep.repositories.RoleRepository;
 import com.sep.services.AuditService;
 import com.sep.services.EventPlanningRequestService;
 import com.sep.services.SecurityService;
+import com.sep.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,6 +22,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @ContextConfiguration(classes = {SepApplication.class})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,9 +37,13 @@ public class ServiceTests {
     @Autowired
     AuditService auditService;
     @Autowired
+    UserService userService;
+    @Autowired
     EventPlanningRequestService eprService;
     @Autowired
     EventPlanningRequestRepository eprRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
     @Test
     public void testSecurityServiceAutoLogin() throws Exception {
@@ -63,7 +74,32 @@ public class ServiceTests {
         log.info("Checking audits");
         // Ensure non-empty collection
         Iterable<AuditRecord> finalAudits = auditService.getHistoryForRepoAndId(eprRepository, id);
-        assert(initialAudits.iterator().hasNext());
+        assert(finalAudits.iterator().hasNext());
+    }
 
+    @Test
+    @Transactional
+    public void testUserLookupByRoles() throws Exception {
+        // Set up
+        Role newRole = new Role();
+        newRole.setName("ROLE_TEST");
+        roleRepository.save(newRole);
+        Long roleId = newRole.getId();
+
+        com.sep.domain.User testUser = new UserBuilder()
+                .addRole(newRole)
+                .setPassword("test")
+                .setUsername("test@test.se")
+                .setName("test user")
+                .build();
+        userService.save(testUser);
+
+        // Verify lookup
+        Set<com.sep.domain.User> check = userService.findByRoleNames(new HashSet<String>() {{
+            add("ROLE_TEST");
+        }});
+        log.info("Looked up: " + check);
+        assert(check.size() != 0);
+        assert(check.contains(testUser));
     }
 }
