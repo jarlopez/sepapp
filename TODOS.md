@@ -1,7 +1,4 @@
 # TODOSs
 ## Critical
-- Role-based exposure for navbar, APIs
-- Reduce file size?
-- Tests!
-
+- Complete auditing for all updates
 ## Good-to-have
