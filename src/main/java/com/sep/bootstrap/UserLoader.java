@@ -183,6 +183,37 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent>, O
 
 
         // CUSTOMER SERVICE TEAM
+        User adminManager = new UserBuilder()
+                .setName("Johan (Administration manager)")
+                .setUsername("admin@sep.se")
+                .setPassword("admin")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.ADMIN_MANAGER.roleName()
+                )))
+                .build();
+        userService.save(adminManager);
+        User csManager = new UserBuilder()
+                .setName("Johan  (Customer service manager)")
+                .setUsername("csm@sep.se")
+                .setPassword("csm")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.CUSTOMER_SERVICE.roleName(),
+                        UserRole.CUSTOMER_SERVICE_MANAGER.roleName(),
+                        UserRole.VICE_PRESIDENT.roleName()
+
+                )))
+                .build();
+        userService.save(csManager);
+        User csMember = new UserBuilder()
+                .setName("Johan (Customer service team)")
+                .setUsername("cs@sep.se")
+                .setPassword("cs")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.CUSTOMER_SERVICE.roleName()
+                )))
+                .build();
+
+        userService.save(csMember);
         User csMike = new UserBuilder()
                 .setName("Mike")
                 .setUsername("admin-mike@sep.se")
