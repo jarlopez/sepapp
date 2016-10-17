@@ -35,17 +35,28 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent>, O
         log.info("Available roles: " + availableRoles);
 
         // TEST USERS
+        List<String> allRoles = new ArrayList<>();
+        for (UserRole it : UserRole.values()) {
+            allRoles.add(it.roleName());
+        }
         User test = new UserBuilder()
-                .setName("Test User")
-                .setUsername("test@sep.se")
-                .setPassword("test")
-                .setRoles(roleRepository.findByNames(Arrays.asList(
-                         UserRole.ADMIN.roleName()
-                )))
+                .setName("Superuser")
+                .setUsername("johan-sudo@sep.se")
+                .setPassword("sudo")
+                .setRoles(roleRepository.findByNames(allRoles))
                 .build();
         userService.save(test);
 
         // FINANCE
+        User finManager = new UserBuilder()
+                .setName("Johan (finance manager)")
+                .setUsername("fin@sep.se")
+                .setPassword("fin")
+                .setRoles(roleRepository.findByNames(Arrays.asList(
+                        UserRole.FINANCIAL_MANAGER.roleName()
+                )))
+                .build();
+        userService.save(finManager);
         User finAlice = new UserBuilder()
                 .setName("Alice")
                 .setUsername("fin-alice@sep.se")
