@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>SEP | View All Staffing Requests</title>
+    <!--/*/ <th:block th:include="fragments/header-inc :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(requests)}">
+        <h2>Recruitment Requests</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Job Title</th>
+                <th>Job Description</th>
+                <th>Status</th>
+                <th>Contract Type</th>
+                <th>Department</th>
+                <th>Years of Experience</th>
+                <th>Actions</th>
+            </tr>
+            <!-- TODO Fix below -->
+            <tr th:each="request : ${requests}" th:class="${currentId == request.id} ? 'success' : ''">
+                <td th:text="${request.jobTitle}"></td>
+                <td th:text="${request.description}"></td>
+                <td th:text="${request.status}"></td>
+                <td th:text="${request.getContractType().getDisplayName()}"></td>
+                <td th:text="${request.getDepartment().getDisplayName()}"></td>
+                <td th:text="${request.yearsOfXp}"></td>
+                <td><i>No actions available</i></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>

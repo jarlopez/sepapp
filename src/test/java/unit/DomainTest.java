@@ -30,6 +30,8 @@ public class DomainTest {
     TeamTaskRepository taskRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    StaffingRequestRepository staffRepository;
 
     @Test
     public void testCreateClients() throws Exception {
@@ -88,6 +90,26 @@ public class DomainTest {
         assert(check.getPriority().equals(TaskPriority.HIGH));
         assert(check.getSender().getId().equals(sender.getId()));
         assert(check.getAssignedTo().getId().equals(assignee.getId()));
+    }
+
+    @Test
+    public void testCreateStaffingRequest() throws Exception {
+        // SETUP: Create new object, try to save
+        StaffingRequest sr = new StaffingRequest();
+        sr.setDescription("Test description");
+        sr.setContractType(ContractType.FULL_TIME);
+        sr.setDepartment(Department.ADMINISTRATION);
+        sr.setJobTitle("SQA");
+
+        staffRepository.save(sr);
+        Long id = sr.getId();
+
+        // Check retrieval
+        StaffingRequest check = staffRepository.findOne(id);
+        assert(check != null);
+        assert(check.getContractType().equals(ContractType.FULL_TIME));
+        assert(check.getId().equals(id));
+        log.info("All checks passed");
     }
 
 }

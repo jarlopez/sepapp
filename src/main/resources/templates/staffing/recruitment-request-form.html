@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>SEP | Recruitment Request Form</title>
+    <!--/*/ <th:block th:include="fragments/header-inc :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
+    <h2>Recruitment Request</h2>
+    <div>
+        <form class="form-horizontal" th:object="${request}" th:action="@{/staff/request}" method="post">
+
+            <!--private Department department;-->
+            <!--private Integer yearsOfXp = 0;-->
+
+            <!--private String jobTitle;-->
+            <!--private String description;-->
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Contract Type</label>
+                <div class="col-sm-10">
+                    <div class="radio" th:each="type : ${T(com.sep.domain.ContractType).values()}">
+                        <label><input type="radio" th:field="*{contractType}" th:value="${type}" th:text="${type.getDisplayName()}"/></label>
+                    </div>
+                    <!--<div class="radio">-->
+                        <!--<label><input type="radio" th:field="*{contractType}" th:value="${T(com.sep.domain.ContractType).FULL_TIME.name()}"/>Full Time</label>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Requesting Department</label>
+                <div class="col-sm-10">
+                    <div class="radio" th:each="dept : ${T(com.sep.domain.Department).values()}">
+                        <label><input type="radio" th:field="*{department}" th:value="${dept}" th:text="${dept.getDisplayName()}"/></label>
+                    </div>
+                    <!--<div class="radio">-->
+                    <!--<label><input type="radio" th:field="*{contractType}" th:value="${T(com.sep.domain.ContractType).FULL_TIME.name()}"/>Full Time</label>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Years of Experience:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="number" value="0"  th:field="*{yearsOfXp}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Job Title:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text"  th:field="*{jobTitle}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Job Description:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text"  th:field="*{description}"/>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">Client:</label>-->
+                <!--<div class="col-sm-10">-->
+                    <!--<select id="client" name="client" th:field="*{client}" class="form-control" th:readonly="${readonly}" >-->
+                        <!--<option th:each="client : ${clients}" th:value="${client.getId()}"-->
+                                <!--th:text="${client.getName()}">Clients</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="row">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+
