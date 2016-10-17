@@ -53,6 +53,17 @@
                         <li><a th:href="@{/staff/request/list}" href="/staff/request/list">View Staffing Requests</a></li>
                     </ul>
                 </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Finance Management
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a  th:href="@{/finance/request/create}" href="/finance/request/create">Request Additional Budget</a></li>
+                        <li><a  th:href="@{/finance/request/list}" href="/finance/request/list">View Budget Requests</a></li>
+                    </ul>
+                </li>
                 <!-- TODO Services vs Production -->
                 <!-- TODO Only available to managers and Team Members -->
                 <li class="dropdown" sec:authorize="hasAnyRole(T(com.sep.common.UserRole).TEAM_MANAGER.name(), T(com.sep.common.UserRole).TEAM_MEMBER.name())">

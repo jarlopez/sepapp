@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>SEP | View All Financial Requests</title>
+    <!--/*/ <th:block th:include="fragments/header-inc :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(requests)}">
+        <h2>Financial Requests</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Requesting Department</th>
+                <th>Required Amount</th>
+                <th>Reason</th>
+                <th>Project Reference</th>
+                <th>Actions</th>
+            </tr>
+            <!-- TODO Fix below -->
+            <tr th:each="request : ${requests}" th:class="${currentId == request.id} ? 'success' : ''">
+                <td th:text="${request.getRequestingDepartment().getDisplayName()}"></td>
+                <td th:text="${request.requiredAmount}"></td>
+                <td th:text="${request.reason}"></td>
+                <td th:text="${request.projectReference}"></td>
+                <td><i>No actions available</i></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>
