@@ -10,7 +10,7 @@
 <!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
 <div class="container">
     <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
-    <h2>Welcome!</h2>
+    <h2 id="welcome-msg">Welcome!</h2>
     <div sec:authorize="isAuthenticated()">
         <h3>Login Details</h3>
         Logged user: <span sec:authentication="name">Bob</span><br/>

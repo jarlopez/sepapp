@@ -20,7 +20,6 @@ import java.util.List;
 public class DomainTest {
     Logger log = LoggerFactory.getLogger(DomainTest.class);
 
-
     @Autowired
     EventPlanningRequestRepository eprRepository;
     @Autowired
