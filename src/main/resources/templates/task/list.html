@@ -17,44 +17,35 @@
                 <!--<th>Id</th>-->
                 <th>Sender</th>
                 <!-- TODO STATUS! -->
-                <!--<th>Status</th>-->
+                <th>Status</th>
                 <th>Assigned To</th>
                 <th>Event Name</th>
                 <th>Priority</th>
                 <th>Actions</th>
             </tr>
-            <tr th:each="task : ${tasks}">
+            <tr th:each="task : ${tasks}" th:class="${currentId == task.id} ? 'success' : ''">
                 <!--<td th:text="${epr.id}"><a href="/epr/${epr.id}">Id</a></td>-->
-                <td th:text="${task.sender?.name()}"></td>
-                <!--<td th:text="${task.status?.getDisplayName()"></td>-->
-                <td th:text="${task.assignedTo?.name()}"></td>
-                <td th:text="${task.epr?.name"></td>
-                <td th:text="${task.priority?.getDisplayName()"></td>
+                <td th:text="${task.sender?.name}"></td>
+                <td th:text="${task.status?.getDisplayName()}"></td>
+                <td th:text="${task.assignedTo?.name}"></td>
+                <td th:text="${task.epr?.name}"></td>
+                <td th:text="${task.priority?.getDisplayName()}"></td>
 
                     <!-- TODo  -->
                 <td>
-                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE.name())">
-                        <a th:href="${'/epr/edit/' + epr.id}">Edit</a>
+                    <a th:href="${'/task/' + task.id}">View</a>
+                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MEMBER.name())">
+                            <a th:if="${task.status == T(com.sep.domain.TaskStatus).OPEN}"
+                               th:href="${'/task/feedback/' + task.id}">Submit Feedback</a>
+                            <a th:if="${task.status == T(com.sep.domain.TaskStatus).FEEDBACK_SUBMITTED}"
+                               th:href="${'/task/start/' + task.id}">Start</a>
+                            <a th:if="${task.status == T(com.sep.domain.TaskStatus).IN_PROGRESS}"
+                               th:href="${'/task/finish/' + task.id}">Finish</a>
                     </div>
-                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE_MANAGER.name())">
-                        <div th:if="${epr.status == T(com.sep.domain.EPRStatus).NEW}">
-                            <a th:href="${'/epr/cs/approve/' + epr.id}">Approve</a>
-                            <a th:href="${'/epr/cs/reject/' + epr.id}">Reject</a> <!-- TODO  endpoint -->
-                        </div>
+                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MEMBER.name())">
+                        <a th:if="${task.status == T(com.sep.domain.TaskStatus).COMPLETED}"
+                           th:href="${'/task/verify/' + task.id}">Verify</a>
                     </div>
-                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).FINANCIAL_MANAGER.name())">
-                        <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_CS}">
-                            <a th:href="${'/epr/feedback/' + epr.id}">Submit Financial Feedback</a><!-- TODO  endpoint -->
-                        </div>
-                    </div>
-                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).ADMIN_MANAGER.name())">
-                        <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_FINANCE}">
-                            <a th:href="${'/epr/admin/approve/' + epr.id}">Approve</a>
-                            <a th:href="${'/epr/admin/reject/' + epr.id}">Reject</a> <!-- TODO  endpoint -->
-                        </div>
-                    </div>
-                    <!-- TODO User- and status-based actions -->
-                    <a th:href="${ '/epr/' + epr.id}">View</a>
                 </td>
             </tr>
         </table>

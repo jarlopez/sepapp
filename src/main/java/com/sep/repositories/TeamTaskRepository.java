@@ -1,5 +1,6 @@
 package com.sep.repositories;
 
+import com.sep.domain.EventPlanningRequest;
 import com.sep.domain.TeamTask;
 import com.sep.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface TeamTaskRepository extends JpaRepository<TeamTask, Long> {
 
 //    @Query( "select o from Role o where name in :names" )
     Set<TeamTask> findByAssignedTo(User user);
+
+    Set<TeamTask> findByEpr(EventPlanningRequest epr);
 }

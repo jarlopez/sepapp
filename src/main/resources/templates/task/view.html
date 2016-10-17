@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>SEP | View a Task</title>
+    <!--/*/ <th:block th:include="fragments/header-inc :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
+    <h2>Assigned Task</h2>
+    <div th:fragment="view-task">
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Sender:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${task.sender?.name}"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Assigned To:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${task.assignedTo?.name}"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Event:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${task.epr?.name}"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Status:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${task.status?.getDisplayName()}"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Description:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${task.description}"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Priority:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${task.priority?.getDisplayName()}"></p>
+                </div>
+            </div>
+            <div class="form-group" th:if="${task.feedback}">
+                <label class="col-sm-2 control-label">Feedback from Assignee:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${task.feedback}"></p>
+                </div>
+            </div>
+        </form>
+        <h2>History</h2>
+        <table class="table table-striped">
+            <thead>
+            <th>Modified By</th>
+            <th>Date</th>
+            <th>Field</th>
+            <th>New Value</th>
+            </thead>
+            <tbody>
+            <tr th:each="audit : ${task.auditHistory}">
+                <td th:text="${audit.modifiedBy?.name}"></td>
+                <td th:text="${audit.modified}"></td>
+                <td th:text="${audit.field}"></td>
+                <td th:text="${audit.newValue}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

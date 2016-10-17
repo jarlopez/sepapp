@@ -32,27 +32,31 @@
                 <td th:text="${epr.budget}">Budget</td>
                 <td th:text="${epr.creator?.name}">Created By</td>
                 <td>
-                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE.name())">
-                        <a th:href="${'/epr/edit/' + epr.id}">Edit</a>
-                    </div>
+                    <!--<div sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE.name())">-->
+                        <!--<a th:href="${'/epr/edit/' + epr.id}">Edit</a>-->
+                    <!--</div>-->
                     <div sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE_MANAGER.name())">
                         <div th:if="${epr.status == T(com.sep.domain.EPRStatus).NEW}">
                             <a th:href="${'/epr/cs/approve/' + epr.id}">Approve</a>
-                            <a th:href="${'/epr/cs/reject/' + epr.id}">Reject</a> <!-- TODO  endpoint -->
+                            <a th:href="${'/epr/cs/reject/' + epr.id}">Reject</a>
                         </div>
                     </div>
                     <div sec:authorize="hasRole(T(com.sep.common.UserRole).FINANCIAL_MANAGER.name())">
                         <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_CS}">
-                            <a th:href="${'/epr/feedback/' + epr.id}">Submit Financial Feedback</a><!-- TODO  endpoint -->
+                            <a th:href="${'/epr/feedback/' + epr.id}">Submit Financial Feedback</a>
                         </div>
                     </div>
                     <div sec:authorize="hasRole(T(com.sep.common.UserRole).ADMIN_MANAGER.name())">
                         <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_FINANCE}">
                             <a th:href="${'/epr/admin/approve/' + epr.id}">Approve</a>
-                            <a th:href="${'/epr/admin/reject/' + epr.id}">Reject</a> <!-- TODO  endpoint -->
+                            <a th:href="${'/epr/admin/reject/' + epr.id}">Reject</a>
                         </div>
                     </div>
-                    <!-- TODO User- and status-based actions -->
+                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MANAGER.name())">
+                        <div th:if="${(allTasksCompleted == true) and (epr.status == T(com.sep.domain.EPRStatus).APPROVED)}">
+                            <a th:href="${'/epr/start/' + epr.id}">Start</a>
+                        </div>
+                    </div>
                     <a th:href="${ '/epr/' + epr.id}">View</a>
                 </td>
             </tr>

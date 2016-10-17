@@ -6,7 +6,7 @@ public enum EPRStatus {
     REVIEWED_BY_FINANCE("Reviewed (finance)"),
     APPROVED("Approved (admin. manager)"),
     OPEN("Open"),
-    IN_PROGRESS("In Progress)"),
+    IN_PROGRESS("In Progress"),
     REJECTED("Rejected"),
     REJECTED_CS("Rejected by customer service manager"),
     REJECTED_ADMIN("Rejected by administration manager"),

@@ -1,6 +1,7 @@
 package com.sep.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class TeamTask extends Auditable {
@@ -11,15 +12,21 @@ public class TeamTask extends Auditable {
 
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = User.class)
     private User sender;
-// TODO STATUS
+
     @OneToOne(targetEntity = User.class)
     private User assignedTo;
 
     @ManyToOne
+    @NotNull
     private EventPlanningRequest epr;
+
+    private TaskStatus status = TaskStatus.OPEN;
 
     @Lob
     private String description;
+
+    @Lob
+    private String feedback;
 
     private TaskPriority priority;
 
@@ -69,5 +76,21 @@ public class TeamTask extends Auditable {
 
     public void setPriority(TaskPriority priority) {
         this.priority = priority;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 }
