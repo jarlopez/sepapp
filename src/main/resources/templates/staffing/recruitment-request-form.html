@@ -13,14 +13,7 @@
     <h2>Recruitment Request</h2>
     <div>
         <form class="form-horizontal" th:object="${request}" th:action="@{/staff/request}" method="post">
-
-            <!--private Department department;-->
-            <!--private Integer yearsOfXp = 0;-->
-
-            <!--private String jobTitle;-->
-            <!--private String description;-->
-
-
+            <input type="hidden" th:field="*{id}"/>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Contract Type</label>
                 <div class="col-sm-10">

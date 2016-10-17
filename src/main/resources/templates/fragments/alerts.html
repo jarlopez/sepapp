@@ -18,6 +18,15 @@
         <p><strong>Info:</strong> <span th:text="${info}"></span></p>
         <p th:if="${message}"><strong>Reason:</strong> <span th:text="${message}"></span></p>
     </div>
+    <div th:if="${warn}" class="alert alert-warn" role="alert">
+        <p><strong>Info:</strong> <span th:text="${warn}"></span></p>
+        <p th:if="${message}"><strong>Reason:</strong> <span th:text="${message}"></span></p>
+    </div>
+    <div th:if="${success}" class="alert alert-success" role="alert">
+        <p><strong>Success:</strong> <span th:text="${success}"></span></p>
+        <p th:if="${message}"><strong>Reason:</strong> <span th:text="${message}"></span></p>
+    </div>
+
     <div th:if="${param.loginError}" class="alert alert-danger" role="alert">
         <p><strong>Invalid credentials!</strong> Please try again.</p>
     </div>

@@ -33,13 +33,14 @@ public class StaffController {
             redirectAttributes.addFlashAttribute("request", req);
             return "redirect:/staff/request/create";
         }
-        redirectAttributes.addFlashAttribute("currentId", req.getId());
         staffingRequestRepository.save(req);
+        redirectAttributes.addFlashAttribute("currentId", req.getId());
+        redirectAttributes.addFlashAttribute("success",  "Successfully created a new staffing request");
         return "redirect:/staff/request/list";
     }
 
     @RequestMapping(value = {"/request/list"}, method = RequestMethod.GET)
-    public String list(Model model){
+    public String list(Model model, RedirectAttributes redirectAttributes){
         model.addAttribute("requests", staffingRequestRepository.findAll());
         return "staffing/list";
     }
@@ -48,13 +49,15 @@ public class StaffController {
     public String start(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         StaffingRequest it = staffingRequestRepository.findOne(id);
         if (it == null) {
-            redirectAttributes.addAttribute("error", "Invalid action! Request not found");
+            redirectAttributes.addFlashAttribute("error", "Invalid action! Request not found");
             return "redirect:/staff/request/list";
         }
         if (it.getStatus() != StaffingRequestStatus.OPEN) {
-            redirectAttributes.addAttribute("error", "Invalid action! Request already started");
+            redirectAttributes.addFlashAttribute("error", "Invalid action! Request already started");
             return "redirect:/staff/request/list";
         }
+        redirectAttributes.addFlashAttribute("info", "Started progress on a staffing request");
+
         it.setStatus(StaffingRequestStatus.PENDING);
         staffingRequestRepository.save(it);
         return "redirect:/staff/request/list";
@@ -63,13 +66,15 @@ public class StaffController {
     public String close(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         StaffingRequest it = staffingRequestRepository.findOne(id);
         if (it == null) {
-            redirectAttributes.addAttribute("error", "Invalid action! Request not found");
+            redirectAttributes.addFlashAttribute("error", "Invalid action! Request not found");
             return "redirect:/staff/request/list";
         }
         if (it.getStatus() != StaffingRequestStatus.OPEN && it.getStatus() != StaffingRequestStatus.PENDING) {
-            redirectAttributes.addAttribute("error", "Invalid action! Request already started");
+            redirectAttributes.addFlashAttribute("error", "Invalid action! Request already started");
             return "redirect:/staff/request/list";
         }
+        redirectAttributes.addFlashAttribute("info", "Closed a staffing request");
+
         it.setStatus(StaffingRequestStatus.CLOSED);
         staffingRequestRepository.save(it);
         return "redirect:/staff/request/list";
@@ -78,15 +83,16 @@ public class StaffController {
     public String reject(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         StaffingRequest it = staffingRequestRepository.findOne(id);
         if (it == null) {
-            redirectAttributes.addAttribute("error", "Invalid action! Request not found");
+            redirectAttributes.addFlashAttribute("error", "Invalid action! Request not found");
             return "redirect:/staff/request/list";
         }
         if (it.getStatus() != StaffingRequestStatus.OPEN && it.getStatus() != StaffingRequestStatus.PENDING) {
-            redirectAttributes.addAttribute("error", "Invalid action! Request already started");
+            redirectAttributes.addFlashAttribute("error", "Invalid action! Request already started");
             return "redirect:/staff/request/list";
         }
         it.setStatus(StaffingRequestStatus.REJECTED);
         staffingRequestRepository.save(it);
+        redirectAttributes.addFlashAttribute("warn", "Rejected a staffing request");
         return "redirect:/staff/request/list";
     }
 }

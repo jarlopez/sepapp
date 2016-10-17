@@ -228,7 +228,6 @@ public class EventPlanningRequestController {
         epr.setFinancialFeedback(feedback);
         epr.setStatus(EPRStatus.REVIEWED_BY_FINANCE);
         eprService.saveEventPlanningRequest(epr);
-        // TODO Actually update fields
         redirectAttributes.addFlashAttribute("info", "Financial feedback submitted");
         return "redirect:/epr/list";
     }

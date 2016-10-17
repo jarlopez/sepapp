@@ -9,7 +9,7 @@
 <body>
 <!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
 <div class="container">
-    <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
+    <th:block th:include="fragments/alerts :: alerts"></th:block>
     <div th:if="${not #lists.isEmpty(requests)}">
         <h2>Recruitment Requests</h2>
         <table class="table table-striped">
@@ -33,7 +33,8 @@
                 <td sec:authorize="hasAnyRole(T(com.sep.common.UserRole).HR_MANAGER.name(), T(com.sep.common.UserRole).HR_MEMBER.name())">
                         <a th:if="${request.status == T(com.sep.domain.StaffingRequestStatus).OPEN}" th:href="@{/staff/request/start/} + ${request.id}" href="#">Start Progress</a>
                         <a th:if="${request.status != T(com.sep.domain.StaffingRequestStatus).CLOSED}"  th:href="@{/staff/request/close/} + ${request.id}" href="#">Close</a>
-                        <a th:if="${request.status != T(com.sep.domain.StaffingRequestStatus).REJECTED}" th:href="@{/staff/request/reject/} + ${request.id}" href="#">Reject</a>
+                        <a th:if="${request.status != T(com.sep.domain.StaffingRequestStatus).REJECTED and
+                        request.status != T(com.sep.domain.StaffingRequestStatus).CLOSED}" th:href="@{/staff/request/reject/} + ${request.id}" href="#">Reject</a>
                 </td>
             </tr>
         </table>
