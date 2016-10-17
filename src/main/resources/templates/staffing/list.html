@@ -20,17 +20,21 @@
                 <th>Contract Type</th>
                 <th>Department</th>
                 <th>Years of Experience</th>
-                <th>Actions</th>
+                <th sec:authorize="hasAnyRole(T(com.sep.common.UserRole).HR_MANAGER.name(), T(com.sep.common.UserRole).HR_MEMBER.name())">Actions</th>
             </tr>
             <!-- TODO Fix below -->
             <tr th:each="request : ${requests}" th:class="${currentId == request.id} ? 'success' : ''">
                 <td th:text="${request.jobTitle}"></td>
                 <td th:text="${request.description}"></td>
-                <td th:text="${request.status}"></td>
+                <td th:text="${request.getStatus().getDisplayName()}"></td>
                 <td th:text="${request.getContractType().getDisplayName()}"></td>
                 <td th:text="${request.getDepartment().getDisplayName()}"></td>
                 <td th:text="${request.yearsOfXp}"></td>
-                <td><i>No actions available</i></td>
+                <td sec:authorize="hasAnyRole(T(com.sep.common.UserRole).HR_MANAGER.name(), T(com.sep.common.UserRole).HR_MEMBER.name())">
+                        <a th:if="${request.status == T(com.sep.domain.StaffingRequestStatus).OPEN}" th:href="@{/staff/request/start/} + ${request.id}" href="#">Start Progress</a>
+                        <a th:if="${request.status != T(com.sep.domain.StaffingRequestStatus).CLOSED}"  th:href="@{/staff/request/close/} + ${request.id}" href="#">Close</a>
+                        <a th:if="${request.status != T(com.sep.domain.StaffingRequestStatus).REJECTED}" th:href="@{/staff/request/reject/} + ${request.id}" href="#">Reject</a>
+                </td>
             </tr>
         </table>
 
