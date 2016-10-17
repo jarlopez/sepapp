@@ -63,10 +63,10 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MANAGER.name())">
-                            <a  th:href="@{/task/create}" href="/task/create">Create</a>
+                            <a  th:href="@{/task/mgmt/create}" href="/task/mgmt/create">Create</a>
                         </li>
                         <li sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MANAGER.name())">
-                            <a th:href="@{/task/list}" href="#">View All Tasks</a>
+                            <a th:href="@{/task/mgmt/listAll}" href="#">View All Tasks</a>
                         </li>
                         <li sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MEMBER.name())">
                             <a th:href="@{/task/list}" href="#">View Assigned Tasks</a>

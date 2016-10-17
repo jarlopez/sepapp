@@ -11,7 +11,7 @@ public class TeamTask extends Auditable {
 
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = User.class)
     private User sender;
-
+// TODO STATUS
     @OneToOne(targetEntity = User.class)
     private User assignedTo;
 
