@@ -2,7 +2,6 @@ package com.sep.controllers;
 
 import com.sep.domain.Client;
 import com.sep.repositories.ClientRepository;
-import com.sep.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,26 +32,27 @@ public class ClientController {
     }
 
     @RequestMapping("/{id}")
-    public String showClientDetails(@PathVariable Long id, Model model){
+    public String showClientDetails(@PathVariable Long id, Model model) {
         model.addAttribute("client", clientRepository.findOne(id));
         return "client/view";
     }
 
     @RequestMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model){
+    public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("epr", clientRepository.findOne(id));
         return "client/form";
     }
-    @RequestMapping(value={"/new", "/create"})
-    public String newClient(Model model, @ModelAttribute("client") Client client){
+
+    @RequestMapping(value = {"/new", "/create"})
+    public String newClient(Model model, @ModelAttribute("client") Client client) {
         return "client/form";
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String saveClientDetails(@Valid @ModelAttribute("client") Client client,
-                                           Errors errors,
-                                           Model model,
-                                           RedirectAttributes redirectAttributes){
+                                    Errors errors,
+                                    Model model,
+                                    RedirectAttributes redirectAttributes) {
         if (errors.hasErrors()) {
             log.info(errors.getAllErrors().toString());
             redirectAttributes.addFlashAttribute("error", "Invalid input, please try again.");
@@ -63,7 +63,7 @@ public class ClientController {
             clientRepository.save(client);
             redirectAttributes.addFlashAttribute("info", "New client successfully created.");
             return "redirect:/client/" + client.getId();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             model.addAttribute("client", client);
             model.addAttribute("error", "Invalid input, please try again.");
             return "redirect:/client/create";
