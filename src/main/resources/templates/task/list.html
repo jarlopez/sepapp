@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>SEP | View All</title>
+    <!--/*/ <th:block th:include="fragments/header-inc :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(tasks)}">
+        <h2>Tasks List</h2>
+        <table class="table table-striped">
+            <tr>
+                <!--<th>Id</th>-->
+                <th>Sender</th>
+                <!-- TODO STATUS! -->
+                <!--<th>Status</th>-->
+                <th>Assigned To</th>
+                <th>Event Name</th>
+                <th>Priority</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="task : ${tasks}">
+                <!--<td th:text="${epr.id}"><a href="/epr/${epr.id}">Id</a></td>-->
+                <td th:text="${task.sender?.name()}"></td>
+                <!--<td th:text="${task.status?.getDisplayName()"></td>-->
+                <td th:text="${task.assignedTo?.name()}"></td>
+                <td th:text="${task.epr?.name"></td>
+                <td th:text="${task.priority?.getDisplayName()"></td>
+
+                    <!-- TODo  -->
+                <td>
+                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE.name())">
+                        <a th:href="${'/epr/edit/' + epr.id}">Edit</a>
+                    </div>
+                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE_MANAGER.name())">
+                        <div th:if="${epr.status == T(com.sep.domain.EPRStatus).NEW}">
+                            <a th:href="${'/epr/cs/approve/' + epr.id}">Approve</a>
+                            <a th:href="${'/epr/cs/reject/' + epr.id}">Reject</a> <!-- TODO  endpoint -->
+                        </div>
+                    </div>
+                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).FINANCIAL_MANAGER.name())">
+                        <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_CS}">
+                            <a th:href="${'/epr/feedback/' + epr.id}">Submit Financial Feedback</a><!-- TODO  endpoint -->
+                        </div>
+                    </div>
+                    <div sec:authorize="hasRole(T(com.sep.common.UserRole).ADMIN_MANAGER.name())">
+                        <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_FINANCE}">
+                            <a th:href="${'/epr/admin/approve/' + epr.id}">Approve</a>
+                            <a th:href="${'/epr/admin/reject/' + epr.id}">Reject</a> <!-- TODO  endpoint -->
+                        </div>
+                    </div>
+                    <!-- TODO User- and status-based actions -->
+                    <a th:href="${ '/epr/' + epr.id}">View</a>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>
