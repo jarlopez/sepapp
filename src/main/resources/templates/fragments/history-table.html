@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head lang="en" th:fragment="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <div th:fragment="history" th:object="${auditHistory}">
+        <h2>History</h2>
+        <table class="table table-striped">
+            <thead>
+            <th>Modified By</th>
+            <th>Date</th>
+            <th>Field</th>
+            <th>New Value</th>
+            </thead>
+            <tbody>
+            <tr th:each="audit : ${auditHistory}">
+                <td th:text="${audit.modifiedBy?.name}"></td>
+                <td th:text="${audit.modified}"></td>
+                <td th:text="${audit.field}"></td>
+                <td th:text="${audit.newValue}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

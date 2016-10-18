@@ -57,23 +57,9 @@
                 </div>
             </div>
         </form>
-        <h2>History</h2>
-        <table class="table table-striped">
-            <thead>
-            <th>Modified By</th>
-            <th>Date</th>
-            <th>Field</th>
-            <th>New Value</th>
-            </thead>
-            <tbody>
-            <tr th:each="audit : ${task.auditHistory}">
-                <td th:text="${audit.modifiedBy?.name}"></td>
-                <td th:text="${audit.modified}"></td>
-                <td th:text="${audit.field}"></td>
-                <td th:text="${audit.newValue}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <th:block th:with="auditHistory=${task.auditHistory}">
+            <div th:replace="fragments/history-table :: history"></div>
+        </th:block>
     </div>
 </div>
 </body>
