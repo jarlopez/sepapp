@@ -88,9 +88,11 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <form class="logout-item" th:action="@{/logout}" method="post">
-                                <input type="submit" value="Sign Out"/>
-                            </form></li>
+                            <form class="logout-item hidden" th:action="@{/logout}" method="post" id="logoutForm">
+                                <input type="submit" id="logout" value="Sign Out"/>
+                            </form>
+                            <a href="#" onclick="document.getElementById('logoutForm').submit();">Sign Out</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
