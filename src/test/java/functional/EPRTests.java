@@ -49,7 +49,7 @@ public class EPRTests extends SepWebTest {
         driver.findElement(By.cssSelector("#epr-dropdown .dropdown-toggle")).click();
         driver.findElements(By.cssSelector("#epr-dropdown .dropdown-menu a")).get(1).click();
 
-        // At creation form
+        // At EPR list
         assert(driver.getTitle().equals("SEP | View All"));
 
         WebElement row = driver.findElement(By.cssSelector("#epr-" + eprId));
@@ -57,6 +57,69 @@ public class EPRTests extends SepWebTest {
 
         row.findElement(By.cssSelector("a.epr-approve")).click();
         assert(driver.findElementByCssSelector(".alert.alert-info") != null);
+    }
+
+    @Test
+    public void testFinancialFeedback() throws Exception {
+        testEprCsApproval();
+
+        driver.findElement(By.cssSelector("#epr-dropdown .dropdown-toggle")).click();
+        driver.findElements(By.cssSelector("#epr-dropdown .dropdown-menu a")).get(1).click();
+        // At EPR list
+        assert(driver.getTitle().equals("SEP | View All"));
+
+        WebElement row = driver.findElement(By.cssSelector("#epr-" + eprId));
+        assert(row != null);
+
+        row.findElement(By.cssSelector("a.epr-feedback")).click();
+        driver.findElementByCssSelector("input[name='feedback'").sendKeys("Test feedback");
+        driver.findElementByCssSelector("button[type='submit']").click();
+
+        assert(driver.findElementByCssSelector(".alert.alert-info") != null);
+    }
+
+    @Test
+    public void testAdminApproval() throws Exception {
+        testFinancialFeedback();
+
+        driver.findElement(By.cssSelector("#epr-dropdown .dropdown-toggle")).click();
+        driver.findElements(By.cssSelector("#epr-dropdown .dropdown-menu a")).get(1).click();
+        // At EPR list
+        assert(driver.getTitle().equals("SEP | View All"));
+        WebElement row = driver.findElement(By.cssSelector("#epr-" + eprId));
+        assert(row != null);
+        row.findElement(By.cssSelector("a.epr-admin-approve")).click();
+        assert(driver.findElementByCssSelector(".alert.alert-info") != null);
+        assert(driver.findElementByCssSelector(".alert.alert-info").getText().contains("The event planning request was successfully approved."));
+    }
+
+
+    @Test
+    public void testStartEvent() throws Exception {
+        testAdminApproval();
+
+        driver.findElement(By.cssSelector("#epr-dropdown .dropdown-toggle")).click();
+        driver.findElements(By.cssSelector("#epr-dropdown .dropdown-menu a")).get(1).click();
+        // At EPR list
+        assert(driver.getTitle().equals("SEP | View All"));
+        WebElement row = driver.findElement(By.cssSelector("#epr-" + eprId));
+        assert(row != null);
+        row.findElement(By.cssSelector("a.epr-start")).click();
+        assert(driver.findElementByCssSelector(".alert.alert-info") != null);
+        assert(driver.findElementByCssSelector(".alert.alert-info").getText().contains("The event has been put in progress."));
+    }
+
+    @Test
+    public void testAllActionsRemoved() throws Exception {
+        testStartEvent();
+
+        driver.findElement(By.cssSelector("#epr-dropdown .dropdown-toggle")).click();
+        driver.findElements(By.cssSelector("#epr-dropdown .dropdown-menu a")).get(1).click();
+        // At EPR list
+        assert(driver.getTitle().equals("SEP | View All"));
+        WebElement row = driver.findElement(By.cssSelector("#epr-" + eprId));
+        assert(row != null);
+        assert(row.findElements(By.cssSelector("a")).size() == 1); // Only "view" exposed
     }
 
 }
