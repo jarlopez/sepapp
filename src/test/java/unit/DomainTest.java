@@ -79,6 +79,8 @@ public class DomainTest {
 
         // Create team task with assignee and sender
         TeamTask task = new TeamTask();
+        EventPlanningRequest epr = eprRepository.findAll().get(0);
+        task.setEpr(epr);
         task.setPriority(TaskPriority.HIGH);
         task.setDescription(description);
         task.setSender(sender);

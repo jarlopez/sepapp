@@ -49,7 +49,12 @@ The general approach, irrespective of OS, should be:
 ~~~~
 
 ## Tests
-After installing all dependencies, the project's associated tests can also be run.
+After installing all dependencies, the project's associated tests can also be run. Do note that the tests under the ``functional`` package require that the application is already running.
+~~~~
+>   cd Location/of/project
+>   ./gradlew test
+
+~~~~
 
 ### Selenium Tests
  All tests under the ``functional`` package rely on a hardcoded path to a Firefox v.46 binary. Therefore, they will not run successfully on environments which do not have this binary in the hardcoded location.

@@ -12,6 +12,7 @@ import com.sep.services.AuditService;
 import com.sep.services.EventPlanningRequestService;
 import com.sep.services.SecurityService;
 import com.sep.services.UserService;
+import config.TestConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -47,9 +48,9 @@ public class ServiceTests {
 
     @Test
     public void testSecurityServiceAutoLogin() throws Exception {
-        securityService.autologin("test@sep.se", "test");
+        securityService.autologin(TestConfig.SUDO_UN, TestConfig.SUDO_PW);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        assert("test@sep.se".equals(user.getUsername()));
+        assert(TestConfig.SUDO_UN.equals(user.getUsername()));
     }
 
     @Test
