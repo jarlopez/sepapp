@@ -7,33 +7,35 @@
     <!--/*/ <th:block th:include="fragments/header-inc :: head"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
-<div class="container row">
-    <div class="content col-sm-6 col-sm-offset-3">
-        <div th:replace="fragments/alerts :: alerts"></div>
-        <form name="form" th:action="@{/login}" action="/login" method="POST">
-            <!--<div class="form-group">-->
-                <!--<label for="email">Email</label><input type="email" class="form-control" id="email" name="username" aria-describedby="emailHelp" placeholder="Enter email" />-->
-                <!--<label for="password">Password</label><input type="password" class="form-control" id="password" name="password" placeholder="Enter password" />-->
-            <!--</div>-->
-            <div class="form-group ${error != null ? 'has-error' : ''}">
-                <div class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input name="username" type="text" class="form-control" placeholder="Email" autofocus="true"/>
+    <!--/*/ <th:block th:include="fragments/navbar :: navbar"></th:block> /*/-->
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <div th:replace="fragments/alerts :: alerts"></div>
+            <form name="form" th:action="@{/login}" action="/login" method="POST">
+                <!--<div class="form-group">-->
+                    <!--<label for="email">Email</label><input type="email" class="form-control" id="email" name="username" aria-describedby="emailHelp" placeholder="Enter email" />-->
+                    <!--<label for="password">Password</label><input type="password" class="form-control" id="password" name="password" placeholder="Enter password" />-->
+                <!--</div>-->
+                <div class="form-group ${error != null ? 'has-error' : ''}">
+                    <div class="input-group">
+                        <span class="input-group-addon">@</span>
+                        <input name="username" type="text" class="form-control" placeholder="Email" autofocus="true"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group ${error != null ? 'has-error' : ''}">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input name="password" type="password" class="form-control" placeholder="Password"/>
+                <div class="form-group ${error != null ? 'has-error' : ''}">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input name="password" type="password" class="form-control" placeholder="Password"/>
+                    </div>
                 </div>
-            </div>
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                <button id="login-submit" class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-            <!--<button class="btn btn-primary" type="submit" id="login" value="Login">Submit</button>-->
-        </form>
+                    <button id="login-submit" class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+                <!--<button class="btn btn-primary" type="submit" id="login" value="Login">Submit</button>-->
+            </form>
+        </div>
     </div>
-</div>
+    </div>
 </body>
 </html>
