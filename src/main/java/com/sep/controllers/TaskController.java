@@ -121,6 +121,15 @@ public class TaskController {
         auditService.saveAuditRecord(ar);
         task.addToAuditHistory(ar);
 
+        // Audit for EPR, too
+        AuditRecord eprAudit = new AuditRecord();
+        eprAudit.setField("New Task");
+        eprAudit.setNewValue("Task assigned to " + task.getAssignedTo().getName());
+        eprAudit.setModifiedBy(user);
+        auditService.saveAuditRecord(eprAudit);
+        task.getEpr().addToAuditHistory(eprAudit);
+        eprService.saveEventPlanningRequest(task.getEpr());
+
         taskRepository.save(task);
         redirectAttributes.addFlashAttribute("currentId", task.getId());
         redirectAttributes.addFlashAttribute("success",  "Successfully created a new staffing request");
@@ -229,6 +238,15 @@ public class TaskController {
 
         task.setStatus(TaskStatus.VERIFIED);
         taskRepository.save(task);
+
+        // Audit for EPR, too
+        AuditRecord eprAudit = new AuditRecord();
+        eprAudit.setField("Task completed");
+        eprAudit.setNewValue("Task completed and verified by manager");
+        eprAudit.setModifiedBy(user);
+        auditService.saveAuditRecord(eprAudit);
+        task.getEpr().addToAuditHistory(eprAudit);
+        eprService.saveEventPlanningRequest(task.getEpr());
 
         redirectAttributes.addFlashAttribute("info", "Verified work done in task");
         return "redirect:/task/list";
