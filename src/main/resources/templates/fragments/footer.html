@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head lang="en" th:fragment="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/sep.css}"/>
+</head>
+<body>
+
+</body>
+<div th:fragment="footer">
+    <footer>
+        <div class="container" style="margin-top: 10px;" sec:authorize="isAuthenticated()">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="loggedInUser">Current User</label>
+                        <p class="form-control-static" id="loggedInUser" sec:authentication="name"></p>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label for="currentRoles">Roles</label>
+                        <ul class="form-control-static list-inline" id="currentRoles">
+                            <li th:each="authority, cnt : ${#authentication.getAuthorities()}">
+                                <span class="label label-info" th:if="${authority.getAuthority().startsWith('ROLE_')}"
+                                      th:text="${authority.getAuthority().replaceFirst('ROLE_', '')}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</html>

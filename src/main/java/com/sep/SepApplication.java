@@ -54,6 +54,7 @@ public class SepApplication extends WebMvcConfigurerAdapter {
                     .csrf().disable()
                     .headers().disable()
                     .authorizeRequests()
+                    .antMatchers("/resources/**").permitAll()
                     .antMatchers("/console/**").permitAll()
                     .antMatchers("/epr/create/**")
                     .hasAnyRole(

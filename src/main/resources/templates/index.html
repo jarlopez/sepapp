@@ -11,12 +11,8 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
     <h2 id="welcome-msg">Welcome!</h2>
-    <div sec:authorize="isAuthenticated()">
-        <h3>Login Details</h3>
-        Logged user: <span sec:authentication="name">Bob</span><br/>
-        Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
-    </div>
 
 </div>
 </body>
+<th:block th:include="fragments/footer :: footer"></th:block>
 </html>
