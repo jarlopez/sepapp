@@ -12,7 +12,6 @@
     <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
     <h2>Financial Feedback for Event Planning Request</h2>
     <div  th:object="${epr}" th:with="readonly='readonly'" >
-        <div th:replace="epr/form :: show-epr-form"></div>
         <form class="form" th:object="${epr}" th:action="@{/epr/feedback/} + *{id}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{version}"/>
@@ -26,6 +25,7 @@
                 <button type="submit" class="btn btn-default">Submit Feedback</button>
             </div>
         </form>
+        <div th:replace="epr/view :: view-epr"></div>
     </div>
 </div>
 

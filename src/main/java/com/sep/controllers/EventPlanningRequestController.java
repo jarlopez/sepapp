@@ -61,8 +61,13 @@ public class EventPlanningRequestController {
     }
 
     @RequestMapping("/{id}")
-    public String showEventPlanningRequest(@PathVariable Long id, Model model){
+    public String showEventPlanningRequest(@PathVariable Long id, Model model,  RedirectAttributes redirectAttributes){
         EventPlanningRequest epr = eprService.getEventPlanningRequestById(id);
+        if (epr == null) {
+            redirectAttributes.addFlashAttribute("error", "Not found!");
+            redirectAttributes.addFlashAttribute("message", "The requested event planning request does not exist");
+            return "redirect:/epr/list";
+        }
         model.addAttribute("epr", eprService.getEventPlanningRequestById(id));
         return "epr/view";
     }
@@ -247,7 +252,7 @@ public class EventPlanningRequestController {
         epr.setFinancialFeedback(feedback);
         epr.setStatus(EPRStatus.REVIEWED_BY_FINANCE);
         eprService.saveEventPlanningRequest(epr);
-        redirectAttributes.addFlashAttribute("info", "Financial feedback submitted");
+        redirectAttributes.addFlashAttribute("info", "Financial feedback submitted for '" + epr.getName() + "'.");
         return "redirect:/epr/list";
     }
 
