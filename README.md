@@ -13,6 +13,7 @@ It leverages Spring Boot to support the functioanlities needed by SEP:
 This project comes with a Gradle wrapper (gradlew) to assist in the installation and running of the application and its tests.
 
 The general approach, irrespective of OS, should be:
+
 1. Open up a terminal
 1. Navigate to the directory containing this file and the project source code
 1. Run the  project-provided ``gradlew`` file to install all dependencies
@@ -23,7 +24,9 @@ The general approach, irrespective of OS, should be:
     INFO 14987 --- [  restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
     INFO 14987 --- [  restartedMain] com.sep.SepApplication                   : Started SepApplication in 8.365 seconds (JVM running for 8.72)
 ~~~~
+
 ### Windows Example
+
 ~~~~
 >   cd Location\of\project
 >   gradlew
@@ -32,6 +35,7 @@ The general approach, irrespective of OS, should be:
 ~~~~
 
 ### UNIX Example
+
 ~~~~
 >   cd Location/of/project
 >   ./gradlew
