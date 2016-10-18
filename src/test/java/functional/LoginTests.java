@@ -23,7 +23,6 @@ public class LoginTests  extends SepWebTest {
         }catch (Exception e){
             log.error("Exception caught when trying to access welcome message");
         }
-        Thread.sleep(3000);
         Assert.assertNotNull(element);
     }
     @Test
@@ -35,12 +34,11 @@ public class LoginTests  extends SepWebTest {
         try{
             element = driver.findElement(By.id("welcome-msg"));
         }catch (Exception e){
-            log.error("Exception caught when trying to access welcome message");
+            log.info("(Expected) Exception caught when trying to access welcome message");
         }
         WebElement errorMsg = driver.findElementByCssSelector(".alert.alert-danger");
         Assert.assertNull(element);
         Assert.assertNotNull(errorMsg);
-        Thread.sleep(3000);
     }
 
     @After

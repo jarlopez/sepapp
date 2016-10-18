@@ -23,7 +23,7 @@
                 <th>Created By</th>
                 <th>Actions</th>
             </tr>
-            <tr th:each="epr : ${eprs}">
+            <tr th:each="epr : ${eprs}" th:id="epr- + ${epr.id}">
                 <!--<td th:text="${epr.id}"><a href="/epr/${epr.id}">Id</a></td>-->
                 <td th:text="${epr.name}"></td>
                 <td th:text="${epr.status?.getDisplayName()}" class="epr-status status-${epr.status}"><a href="/epr/${epr.id}">Id</a></td>
@@ -37,27 +37,27 @@
                     <!--</div>-->
                     <div sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE_MANAGER.name())">
                         <div th:if="${epr.status == T(com.sep.domain.EPRStatus).NEW}">
-                            <a th:href="${'/epr/cs/approve/' + epr.id}">Approve</a>
-                            <a th:href="${'/epr/cs/reject/' + epr.id}">Reject</a>
+                            <a class="epr-approve" th:href="${'/epr/cs/approve/' + epr.id}">Approve</a>
+                            <a class="epr-reject" th:href="${'/epr/cs/reject/' + epr.id}">Reject</a>
                         </div>
                     </div>
                     <div sec:authorize="hasRole(T(com.sep.common.UserRole).FINANCIAL_MANAGER.name())">
                         <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_CS}">
-                            <a th:href="${'/epr/feedback/' + epr.id}">Submit Financial Feedback</a>
+                            <a class="epr-feedback" th:href="${'/epr/feedback/' + epr.id}">Submit Financial Feedback</a>
                         </div>
                     </div>
                     <div sec:authorize="hasRole(T(com.sep.common.UserRole).ADMIN_MANAGER.name())">
                         <div th:if="${epr.status == T(com.sep.domain.EPRStatus).REVIEWED_BY_FINANCE}">
-                            <a th:href="${'/epr/admin/approve/' + epr.id}">Approve</a>
-                            <a th:href="${'/epr/admin/reject/' + epr.id}">Reject</a>
+                            <a class="epr-admin-approve" th:href="${'/epr/admin/approve/' + epr.id}">Approve</a>
+                            <a class="epr-admin-reject" th:href="${'/epr/admin/reject/' + epr.id}">Reject</a>
                         </div>
                     </div>
                     <div sec:authorize="hasRole(T(com.sep.common.UserRole).TEAM_MANAGER.name())">
                         <div th:if="${(allTasksCompleted == true) and (epr.status == T(com.sep.domain.EPRStatus).APPROVED)}">
-                            <a th:href="${'/epr/start/' + epr.id}">Start</a>
+                            <a class="epr-start" th:href="${'/epr/start/' + epr.id}">Start</a>
                         </div>
                     </div>
-                    <a th:href="${ '/epr/' + epr.id}">View</a>
+                    <a class="epr-view" th:href="${ '/epr/' + epr.id}">View</a>
                 </td>
             </tr>
         </table>

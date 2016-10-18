@@ -12,7 +12,7 @@
     <!--/*/ <th:block th:include="fragments/alerts :: alerts"></th:block> /*/-->
     <h2>Event Details</h2>
     <div>
-        <form class="form-horizontal" th:object="${epr}" th:action="@{/epr}" method="post">
+        <form id="epr-form" class="form-horizontal" th:object="${epr}" th:action="@{/epr}" method="post">
             <div th:fragment="show-epr-form">
                 <input type="hidden" th:field="*{id}"/>
                 <input type="hidden" th:field="*{auditHistory}"/>

@@ -13,6 +13,7 @@
     <h2>Event Planning Request Details</h2>
     <div th:fragment="view-epr">
         <form class="form-horizontal">
+            <input type="hidden" name="eprId"  id="eprId" th:value="${epr.id}"/>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Name:</label>
                 <div class="col-sm-10">

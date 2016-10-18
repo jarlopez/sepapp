@@ -1,16 +1,22 @@
 package functional;
 
+import config.TestConfig;
 import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 class SepWebTest {
+    Logger log = LoggerFactory.getLogger(SepWebTest.class);
+
     // TODO Override in system variables?
     static final String FF_46_PATH = "/home/johan/firefoxes/firefox-46/firefox";
     static final String BASE_URL = "http://localhost:8080";
@@ -28,5 +34,17 @@ class SepWebTest {
     @After
     public void afterTest() {
         driver.quit();
+    }
+
+    void loginAsSudo() {
+        driver.get(BASE_URL);
+        driver.findElement(By.name("username")).sendKeys(TestConfig.SUDO_UN);
+        driver.findElement(By.name("password")).sendKeys(TestConfig.SUDO_PW);
+        driver.findElement(By.id("login-submit")).click();
+        try{
+            element = driver.findElement(By.id("welcome-msg"));
+        }catch (Exception e){
+            log.error("Exception caught when trying to access welcome message");
+        }
     }
 }

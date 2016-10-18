@@ -13,16 +13,18 @@
             <a class="navbar-brand" th:href="@{/}" href="../home.html">Swedish Event Planners</a>
         </div>
             <ul sec:authorize="isAuthenticated()" class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Event Planning Request <span class="caret"></span></a>
+                <li class="dropdown" id="epr-dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Event Planning Request <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
                         <th:block sec:authorize="hasRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE.name())">
-                            <li><a  th:href="@{/epr/create}" href="/epr/create">Create</a></li>
+                            <li><a th:href="@{/epr/create}" href="/epr/create">Create</a></li>
                         </th:block>
                         <li><a  th:href="@{/epr/list}" href="/epr/list">View All</a></li>
                     </ul>
                 </li>
-                <li class="dropdown" sec:authorize="hasAnyRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE_MANAGER.name())">
+                <li class="dropdown" id="client-dropdown" sec:authorize="hasAnyRole(T(com.sep.common.UserRole).CUSTOMER_SERVICE_MANAGER.name())">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             Client Management
                             <span class="caret"></span>
@@ -34,7 +36,7 @@
                             <li><a  th:href="@{/client/list}" href="/client/list">View All</a></li>
                         </ul>
                     </li>
-                <li class="dropdown">
+                <li class="dropdown" id="reports-dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Generate Client Report</a></li>
@@ -53,7 +55,7 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">
+                <li class="dropdown" id="finance-dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         Finance Management
                         <span class="caret"></span>
@@ -64,7 +66,7 @@
                     </ul>
                 </li>
                 <!-- TODO Services vs Production -->
-                <li class="dropdown" sec:authorize="hasAnyRole(T(com.sep.common.UserRole).TEAM_MANAGER.name(), T(com.sep.common.UserRole).TEAM_MEMBER.name())">
+                <li class="dropdown" id="task-dropdown" sec:authorize="hasAnyRole(T(com.sep.common.UserRole).TEAM_MANAGER.name(), T(com.sep.common.UserRole).TEAM_MEMBER.name())">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         Task Management
                         <span class="caret"></span>
@@ -81,7 +83,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" id="user-dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <span sec:authentication="name">User
                         </span><span class="caret"></span>
