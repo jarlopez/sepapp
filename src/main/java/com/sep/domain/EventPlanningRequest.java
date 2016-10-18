@@ -2,6 +2,8 @@ package com.sep.domain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="eventPlanningRequest")
@@ -34,6 +36,9 @@ public class EventPlanningRequest extends Auditable {
     private String name;
     private String description;
     private String eventType;
+
+    @ElementCollection
+    private Set<EPRPreference> preferences = new HashSet<>();
 
     public String getDescription() {
         return description;
@@ -137,5 +142,13 @@ public class EventPlanningRequest extends Auditable {
 
     public void setFinancialFeedback(String financialFeedback) {
         this.financialFeedback = financialFeedback;
+    }
+
+    public Set<EPRPreference> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(Set<EPRPreference> preferences) {
+        this.preferences = preferences;
     }
 }
